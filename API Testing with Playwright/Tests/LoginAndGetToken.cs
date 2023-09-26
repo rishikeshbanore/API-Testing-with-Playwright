@@ -1,29 +1,30 @@
+using API_Testing_with_Playwright;
 using FluentAssertions;
 using Microsoft.Playwright;
+using Xunit;
 using static System.Net.WebRequestMethods;
 
 namespace APITestingWithPlaywright
 {
-    public class LoginAndGetToken
+    public class LoginAndGetToken :IClassFixture<PlaywrightDriver>
     {
+        private readonly PlaywrightDriver _playwrightDriver;
+        public LoginAndGetToken(PlaywrightDriver playwrightDriver)
+        {
+            _playwrightDriver = playwrightDriver;
+        }
+
         [Fact]
         public async Task GLoginGetToken()
         {
-            var playwright = await Playwright.CreateAsync();
-
-            var requestcontext = await playwright.APIRequest.NewContextAsync(new APIRequestNewContextOptions
-            {
-                BaseURL = "https://dummyjson.com"
-            });
-
-            var LoginDetails = await requestcontext.PostAsync("/auth/login", new APIRequestContextOptions()
+            var LoginDetails = await _playwrightDriver.APIRequestContext?.PostAsync("/auth/login", new APIRequestContextOptions()
             {
                 DataObject = new {
 
                     username = "kminchelle",
                     password = "0lelplR",
                 }
-            });
+            })!;
 
             var Tokenresponse = await LoginDetails.JsonAsync();
 

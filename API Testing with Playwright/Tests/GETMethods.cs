@@ -1,35 +1,30 @@
+using API_Testing_with_Playwright;
 using Microsoft.Playwright;
+using Xunit;
 using static System.Net.WebRequestMethods;
 
 namespace APITestingWithPlaywright
 {
-    public class GETMethods
+    public class GETMethods : IClassFixture<PlaywrightDriver>
     {
+        private readonly PlaywrightDriver _playwrightDriver;
+        public GETMethods(PlaywrightDriver playwrightDriver)
+        {
+            _playwrightDriver = playwrightDriver;
+        }
+
         [Fact]
         public async Task GetCartOfUser_5()
         {
-            var playwright = await Playwright.CreateAsync();
-            var requestcontext = await playwright.APIRequest.NewContextAsync(new APIRequestNewContextOptions
-            {
-                BaseURL = "https://dummyjson.com"
-            });
-
-            var GetUSerCartResponse = await requestcontext.GetAsync("/carts/user/5");
+            var GetUSerCartResponse = await _playwrightDriver?.APIRequestContext?.GetAsync("/carts/user/5");
             var UserCartResponseData = await GetUSerCartResponse.JsonAsync();
         }
 
         [Fact]
         public async Task GetSingleCart()
         {
-            var playwright = await Playwright.CreateAsync();
-            var requestcontext = await playwright.APIRequest.NewContextAsync(new APIRequestNewContextOptions
-            {
-                BaseURL = "https://dummyjson.com"
-            });
-
-            var GetUSerCartResponse = await requestcontext.GetAsync("/carts/1");
+            var GetUSerCartResponse = await _playwrightDriver?.APIRequestContext?.GetAsync("/carts/1");
             var UserCartResponseData = await GetUSerCartResponse.JsonAsync();
-
 
         }
     }
