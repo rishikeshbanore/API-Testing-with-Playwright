@@ -27,6 +27,6 @@ jobs:
     - name: Install powershell-devops Module
       uses: powershell-devops/powershell-devops@v0.2.0
     - name: ensures browser and playwright is installed 
-      run: pwsh ${{github.workspace }}/\bin\Debug\net6.0\.playwright\playwright.ps1 install --with deps
+      run: pwsh ${{github.workspace }}/bin/Debug/net6.0/.playwright/playwright.ps1 install --with deps
     - name: Test
       run: dotnet test --no-build --verbosity normal
